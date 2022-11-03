@@ -1,0 +1,32 @@
+version: '3'
+services:
+  postgis:
+    image: postgis/postgis:14-3.3
+    volumes:
+      - ${GIS_WORK_DIR}/.docker/postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: pg-password
+      POSTGRES_USER: pg-user
+      POSTGRES_DB: pg-database
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 5050:80
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+
+  jupyter:
+    image: rszostak/gis-jupyter
+    ports:
+      - 8888:8888
+    volumes:
+      - ${GIS_WORK_DIR}:/home/workdir
+      - ${GIS_WORK_DIR}/.docker/.vscode-server:/root/.vscode-server
+      - ${GIS_WORK_DIR}/.docker/.vscode-server-insiders:/root/.vscode-server-insiders
+    working_dir: /home/workdir
