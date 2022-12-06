@@ -6,4 +6,5 @@ docker run ^
 -v %cd%/.docker/.vscode-server-insiders:/root/.vscode-server-insiders ^
 -w /home/workdir ^
 -p 8888:8888 ^
+--rm ^
 rszostak/gis-jupyter
